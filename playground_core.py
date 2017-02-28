@@ -25,7 +25,43 @@ print 'Scalar', result_proxy.scalar()
 
 
 # ----------------------------------------------------------------------
-# SELECTing real things
+# SELECTing directly
+# ----------------------------------------------------------------------
+result_proxy = conn.execute("SELECT id, first_name, last_name FROM users")
+print 'All', result_proxy.fetchall()
+
+result_proxy = conn.execute("SELECT id, first_name, last_name FROM users")
+print 'One', result_proxy.fetchone()
+
+
+# ----------------------------------------------------------------------
+# SELECTing directly with WHERE clause
+# ----------------------------------------------------------------------
+result_proxy = conn.execute("SELECT id, first_name, last_name FROM users WHERE first_name = 'David'")
+print 'All', result_proxy.fetchall()
+
+result_proxy = conn.execute("SELECT id, first_name, last_name FROM users WHERE first_name = 'David'")
+print 'One', result_proxy.fetchone()
+
+# ----------------------------------------------------------------------
+# SELECTing directly with WHERE clause and bindparams
+# ----------------------------------------------------------------------
+from sqlalchemy import text
+
+result_proxy = conn.execute(
+    text("SELECT id, first_name, last_name FROM users WHERE first_name = :first_name"),
+    first_name="David"
+)
+print 'All', result_proxy.fetchall()
+
+result_proxy = conn.execute(
+    text("SELECT id, first_name, last_name FROM users WHERE first_name = :first_name"),
+    first_name="David"
+)
+print 'One', result_proxy.fetchone()
+
+# ----------------------------------------------------------------------
+# SELECTing With A Schema
 # ----------------------------------------------------------------------
 from sqlalchemy import literal_column, table
 
